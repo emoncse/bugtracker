@@ -1,0 +1,11 @@
+-r development.txt
+
+# Local development tools
+ipython==8.17.2
+django-shell-plus==1.0.4
+
+# Performance testing
+django-silk==5.0.2
+
+# API testing
+requests==2.31.0 

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Tracker API - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .docs-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .docs-section h2 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doc-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .doc-card:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+
+        .doc-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .doc-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.live {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.connecting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+            opacity: 0.8;
+        }
+
+        .tech-stack {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tech-stack h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .tech-item {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* WebSocket Test Styles */
+        .websocket-test {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .websocket-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .websocket-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .websocket-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .websocket-log {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 1rem;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+        }
+
+        .log-entry.info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .log-entry.success {
+            color: #155724;
+            background-color: #d4edda;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .log-entry.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .log-entry.warning {
+            color: #856404;
+            background-color: #fff3cd;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .connection-status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .connection-status.connected {
+            background-color: #28a745;
+        }
+
+        .connection-status.disconnected {
+            background-color: #dc3545;
+        }
+
+        .connection-status.connecting {
+            background-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐛 Bug Tracker API</h1>
+            <p>A comprehensive bug tracking system with real-time WebSocket support</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>🚀 Real-time Updates</h3>
+                <p>WebSocket-powered real-time notifications for bug creation, updates, and comments. Stay informed instantly!</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔐 Secure Authentication</h3>
+                <p>JWT-based authentication system with token refresh capabilities. Secure your API endpoints with confidence.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Advanced Filtering</h3>
+                <p>Powerful filtering capabilities for bugs by status, project, priority, and assigned users. Find what you need quickly.</p>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <h2>🛠️ Technology Stack</h2>
+            <div class="tech-list">
+                <span class="tech-item">Django 5.2.4</span>
+                <span class="tech-item">Django REST Framework</span>
+                <span class="tech-item">Django Channels</span>
+                <span class="tech-item">Redis</span>
+                <span class="tech-item">JWT Authentication</span>
+                <span class="tech-item">WebSocket</span>
+                <span class="tech-item">SQLite</span>
+            </div>
+        </div>
+
+        <div class="websocket-test">
+            <h2>🔌 WebSocket Test</h2>
+            <p>Test real-time WebSocket connections and see live notifications. Connect to a project room and watch for real-time updates.</p>
+            
+            <div class="websocket-controls">
+                <input type="number" id="projectId" class="websocket-input" placeholder="Project ID (e.g., 1)" value="1" min="1">
+                <button id="connectBtn" class="btn btn-success">Connect</button>
+                <button id="disconnectBtn" class="btn btn-danger" disabled>Disconnect</button>
+                <button id="pingBtn" class="btn btn-secondary" disabled>Send Ping</button>
+                <button id="clearLogBtn" class="btn btn-secondary">Clear Log</button>
+            </div>
+
+            <div>
+                <strong>Status: </strong>
+                <span id="connectionStatus">
+                    <span class="connection-status disconnected"></span>
+                    Disconnected
+                </span>
+            </div>
+
+            <div class="websocket-log" id="websocketLog">
+                <div class="log-entry info">WebSocket test ready. Enter a project ID and click Connect to start testing.</div>
+            </div>
+        </div>
+
+        <div class="docs-section">
+            <h2>📚 API Documentation</h2>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <h3>Swagger UI</h3>
+                    <p>Interactive API documentation with try-it-out functionality. Test endpoints directly from your browser.</p>
+                    <a href="/api/docs/" class="btn">Open Swagger UI</a>
+                    <span class="status live">Live</span>
+                </div>
+                <div class="doc-card">
+                    <h3>ReDoc</h3>
+                    <p>Beautiful, responsive API documentation with automatic code samples and request/response examples.</p>
+                    <a href="/api/redoc/" class="btn btn-secondary">Open ReDoc</a>
+                    <span class="status live">Live</span>
+                </div>
+                <div class="doc-card">
+                    <h3>OpenAPI Schema</h3>
+                    <p>Raw OpenAPI 3.0 specification in JSON format. Perfect for code generation and API clients.</p>
+                    <a href="/api/schema/" class="btn btn-success">View Schema</a>
+                    <span class="status live">Live</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="docs-section">
+            <h2>🔗 Quick Links</h2>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <h3>Admin Interface</h3>
+                    <p>Django admin interface for managing projects, bugs, and users.</p>
+                    <a href="/admin/" class="btn btn-secondary">Admin Panel</a>
+                </div>
+                <div class="doc-card">
+                    <h3>API Endpoints</h3>
+                    <p>Direct access to the main API endpoints for testing and integration.</p>
+                    <a href="/api/projects/" class="btn">View Projects</a>
+                </div>
+                <div class="doc-card">
+                    <h3>WebSocket URL</h3>
+                    <p>Direct WebSocket connection URL for project rooms.</p>
+                    <span class="btn btn-success" style="cursor: text;">ws://127.0.0.1:8000/ws/project/1/</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Bug Tracker API. Built with Django and Django Channels.</p>
+            <p>Real-time bug tracking system with comprehensive API documentation.</p>
+        </div>
+    </div>
+
+    <script>
+        class WebSocketTester {
+            constructor() {
+                this.socket = null;
+                this.isConnected = false;
+                this.logElement = document.getElementById('websocketLog');
+                this.statusElement = document.getElementById('connectionStatus');
+                this.connectBtn = document.getElementById('connectBtn');
+                this.disconnectBtn = document.getElementById('disconnectBtn');
+                this.pingBtn = document.getElementById('pingBtn');
+                this.clearLogBtn = document.getElementById('clearLogBtn');
+                this.projectIdInput = document.getElementById('projectId');
+                
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                this.connectBtn.addEventListener('click', () => this.connect());
+                this.disconnectBtn.addEventListener('click', () => this.disconnect());
+                this.pingBtn.addEventListener('click', () => this.sendPing());
+                this.clearLogBtn.addEventListener('click', () => this.clearLog());
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                logEntry.textContent = `[${timestamp}] ${message}`;
+                this.logElement.appendChild(logEntry);
+                this.logElement.scrollTop = this.logElement.scrollHeight;
+            }
+
+            updateStatus(status, text) {
+                const statusDot = this.statusElement.querySelector('.connection-status');
+                statusDot.className = `connection-status ${status}`;
+                this.statusElement.textContent = text;
+                this.statusElement.appendChild(statusDot);
+            }
+
+            updateButtons() {
+                this.connectBtn.disabled = this.isConnected;
+                this.disconnectBtn.disabled = !this.isConnected;
+                this.pingBtn.disabled = !this.isConnected;
+                this.projectIdInput.disabled = this.isConnected;
+            }
+
+            connect() {
+                const projectId = this.projectIdInput.value;
+                if (!projectId || projectId < 1) {
+                    this.log('Please enter a valid project ID (1 or higher)', 'error');
+                    return;
+                }
+
+                const wsUrl = `ws://${window.location.host}/ws/project/${projectId}/`;
+                this.log(`Attempting to connect to: ${wsUrl}`, 'info');
+                this.updateStatus('connecting', 'Connecting...');
+
+                try {
+                    this.socket = new WebSocket(wsUrl);
+                    
+                    this.socket.onopen = (event) => {
+                        this.isConnected = true;
+                        this.updateStatus('connected', 'Connected');
+                        this.updateButtons();
+                        this.log('WebSocket connection established successfully!', 'success');
+                        this.log('You can now receive real-time notifications for this project.', 'info');
+                    };
+
+                    this.socket.onmessage = (event) => {
+                        try {
+                            const data = JSON.parse(event.data);
+                            this.log(`Received: ${JSON.stringify(data, null, 2)}`, 'success');
+                        } catch (e) {
+                            this.log(`Received raw message: ${event.data}`, 'info');
+                        }
+                    };
+
+                    this.socket.onclose = (event) => {
+                        this.isConnected = false;
+                        this.updateStatus('disconnected', 'Disconnected');
+                        this.updateButtons();
+                        this.log(`WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason}`, 'warning');
+                    };
+
+                    this.socket.onerror = (error) => {
+                        this.log(`WebSocket error: ${error.message || 'Unknown error'}`, 'error');
+                        this.updateStatus('disconnected', 'Error');
+                    };
+
+                } catch (error) {
+                    this.log(`Failed to create WebSocket connection: ${error.message}`, 'error');
+                    this.updateStatus('disconnected', 'Error');
+                }
+            }
+
+            disconnect() {
+                if (this.socket) {
+                    this.socket.close();
+                    this.socket = null;
+                }
+                this.isConnected = false;
+                this.updateStatus('disconnected', 'Disconnected');
+                this.updateButtons();
+                this.log('WebSocket connection closed by user.', 'info');
+            }
+
+            sendPing() {
+                if (this.socket && this.isConnected) {
+                    const pingMessage = {
+                        type: 'ping'
+                    };
+                    this.socket.send(JSON.stringify(pingMessage));
+                    this.log('Sent ping message', 'info');
+                }
+            }
+
+            clearLog() {
+                this.logElement.innerHTML = '';
+                this.log('Log cleared', 'info');
+            }
+        }
+
+        // Initialize WebSocket tester when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new WebSocketTester();
+        });
+    </script>
+</body>
+</html> 

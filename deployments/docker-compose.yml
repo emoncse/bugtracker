@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DATABASE_URL=postgresql://bugtracker_user:bugtracker_password@db:5432/bugtracker_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ../logs:/app/logs
+      - ../staticfiles:/app/staticfiles
+    command: >
+      sh -c "python manage.py migrate &&
+              python manage.py collectstatic --noinput &&
+              daphne -b 0.0.0.0 -p 8000 config.asgi:application"
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=bugtracker_db
+      - POSTGRES_USER=bugtracker_user
+      - POSTGRES_PASSWORD=bugtracker_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data: 

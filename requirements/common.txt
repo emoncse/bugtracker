@@ -1,0 +1,23 @@
+# Core Django
+Django==5.2.4
+
+# Django REST Framework
+djangorestframework==3.16.0
+djangorestframework-simplejwt==5.5.1
+
+# API Documentation
+drf-spectacular==0.28.0
+
+# CORS
+django-cors-headers==4.7.0
+
+# Filtering
+django-filter==25.1
+
+# WebSocket Support
+channels==4.2.2
+channels-redis==4.3.0
+daphne==3.0.2
+
+# Redis
+redis==6.2.0 
