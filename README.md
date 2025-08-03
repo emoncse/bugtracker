@@ -1,11 +1,12 @@
-# 🐛 Bug Tracker API
+# Bug Tracker API
+Author: 
 
 A modern Django REST Framework application with real-time WebSocket support for bug tracking and project management.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.11+
 - Redis server
 - Virtual environment
 
@@ -56,7 +57,7 @@ daphne -b 0.0.0.0 -p 8000 config.asgi:application
 - **Admin Interface**: http://localhost:8000/admin/
 - **Landing Page**: http://localhost:8000/
 
-## 🔐 Authentication
+## Authentication
 
 Use JWT tokens for API authentication:
 
@@ -71,7 +72,7 @@ curl -H "Authorization: Bearer <your-token>" \
   http://localhost:8000/api/projects/
 ```
 
-## 📡 WebSocket Testing
+## WebSocket Testing
 
 ### Connect to WebSocket
 ```javascript
@@ -96,7 +97,7 @@ ws.send(JSON.stringify({type: 'ping'}));
 ws.send(JSON.stringify({type: 'typing_start'}));
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 bugtracker/
@@ -234,19 +235,6 @@ DATABASE_URL=sqlite:///db.sqlite3
 REDIS_URL=redis://localhost:6379
 ```
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support, please open an issue in the repository or contact the development team.
 
